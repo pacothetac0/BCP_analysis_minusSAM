@@ -1,4 +1,4 @@
-name: BCP2
+name: BCP_nosam
 channels:
   - conda-forge
   - bioconda
