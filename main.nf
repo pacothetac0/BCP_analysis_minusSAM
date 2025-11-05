@@ -33,9 +33,6 @@ workflow {
     // 2.3 SoupX ambient RNA removal
     SOUPX(GZIP_SOLO_OUTPUT.out.gzipped_dir)
 
-    // 3. Run SAM QC using whitelist from Scrublet
-    SAM_QC(SOUPX.out.corrected_h5ad.join(SCRUBLET.out.whitelist))
-
     // 4.1 Collect all the report files that need to be summarized
     ch_for_multiqc = Channel.empty()
         .mix(STAR_SOLO.out.log)
@@ -43,7 +40,6 @@ workflow {
         .mix(SCRUBLET.out.qc_counts_metrics)
         .mix(SCRUBLET.out.qc_genes_metrics)
         .mix(SCRUBLET.out.qc_plots.map { it[1] })
-        .mix(SAM_QC.out.qc_plots.map { it[1] })
         .mix(SOUPX.out.ambient_plot)
         .mix(SOUPX.out.contamination_plot)
         .collect()
